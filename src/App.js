@@ -5,18 +5,20 @@ import { ParamLine } from './ParamLine';
 import { ParamPlot } from './ParamPlot';
 
 function App() {
-  const [data, setData] = useState(50);
-  const [points, setPoints] = useState([{ x: 0, y: 50 }]);
+  const [tempData, setTempData] = useState(50);
+  const [tempPoints, setTempPoints] = useState([{ x: 0, y: 50 }]);
+  const [amandaData, setAmandaData] = useState(50);
+  const [amandaPoints, setAmandaPoints] = useState([{ x: 0, y: 50 }]);
 
   useEffect(() => {
-    if (points.length >= 101) return;
+    if (tempPoints.length >= 101) return;
 
     setTimeout(() => {
-      setPoints((p) => {
+      setTempPoints((p) => {
         const prev = p[p.length - 1];
         const nextValue = Math.max(Math.min(prev.y + Math.random() * 10 - 5, 100), 0);
 
-        setData(nextValue)
+        setTempData(nextValue)
 
         return [
           ...p,
@@ -27,12 +29,33 @@ function App() {
         ];
       });
     }, 1000);
-  }, [points, setPoints, data, setData]);
+  }, [tempPoints, setTempPoints, tempData, setTempData]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAmandaPoints((p) => {
+        const prev = p[p.length - 1];
+        const nextValue = Math.max(Math.min(prev.y + Math.random() * 10 - 5, 100), 0);
+
+        setAmandaData(nextValue)
+
+        return [
+          ...p,
+          {
+            x: prev.x + 1,
+            y: nextValue,
+          },
+        ];
+      });
+    }, 1000);
+  }, [amandaData, setAmandaData, amandaPoints, setAmandaPoints]);
 
   return (
-    <div style={{height: "30vh"}}>
-      <ParamLine data={data} />
-      <ParamPlot points={points} />
+    <div className="App">
+      <ParamLine drf="M:OUTTMP" data={tempData} />
+      <ParamPlot drf="M:OUTTMP" points={tempPoints} />
+      <ParamLine drf="G:AMANDA" data={amandaData} />
+      <ParamPlot drf="G:AMANDA" points={amandaPoints} />
     </div>
   );
 }

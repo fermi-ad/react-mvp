@@ -3,15 +3,15 @@ import { generateDrinkStats } from "@nivo/generators";
 
 const data = generateDrinkStats(18);
 const commonProperties = {
-    width: 900,
-    height: 400,
-    margin: { top: 20, right: 20, bottom: 60, left: 80 },
-    data,
-    animate: true,
-    enableSlices: 'x',
-}
+  width: 900,
+  height: 400,
+  margin: { top: 20, right: 20, bottom: 60, left: 80 },
+  data,
+  animate: true,
+  enableSlices: "x",
+};
 
-export const ParamPlot = ({ points }) => {
+export const ParamPlot = ({ drf, points }) => {
   return (
     <Line
       {...commonProperties}
@@ -25,7 +25,7 @@ export const ParamPlot = ({ points }) => {
         min: 0,
         max: "auto",
       }}
-      data={[{ id: "serie", data: points }]}
+      data={[{ id: drf, data: points }]}
       axisBottom={{
         tickValues: 4,
       }}

@@ -1,5 +1,5 @@
-export const ParamLine = ({data}) => {
+export const ParamLine = ({data, drf}) => {
     return (
-        <pre>M:OUTTMP  Outdoor temperature    {data} F</pre>
+        <pre>{drf}  Outdoor temperature    {data.toFixed(2)} F</pre>
     )
 }
