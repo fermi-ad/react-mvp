@@ -7,18 +7,19 @@ import { ParamPlot } from './ParamPlot';
 function App() {
   const [tempData, setTempData] = useState(50);
   const [tempPoints, setTempPoints] = useState([{ x: 0, y: 50 }]);
-  const [amandaData, setAmandaData] = useState(50);
-  const [amandaPoints, setAmandaPoints] = useState([{ x: 0, y: 50 }]);
+  const [amandaData, setAmandaData] = useState(25);
+  const [amandaPoints, setAmandaPoints] = useState([{ x: 0, y: 25 }]);
+  const maxPlotPoints = 101;
 
   useEffect(() => {
-    if (tempPoints.length >= 101) return;
+    if (tempPoints.length >= maxPlotPoints) return;
 
     setTimeout(() => {
       setTempPoints((p) => {
         const prev = p[p.length - 1];
         const nextValue = Math.max(Math.min(prev.y + Math.random() * 10 - 5, 100), 0);
 
-        setTempData(nextValue)
+        setTempData(nextValue);
 
         return [
           ...p,
@@ -31,19 +32,26 @@ function App() {
     }, 1000);
   }, [tempPoints, setTempPoints, tempData, setTempData]);
 
+  const shiftQuarter = (array) => {
+    const quarterLength = Math.floor(array.length / 4);
+
+    return array.slice(quarterLength);
+  }
+
   useEffect(() => {
     setTimeout(() => {
       setAmandaPoints((p) => {
         const prev = p[p.length - 1];
-        const nextValue = Math.max(Math.min(prev.y + Math.random() * 10 - 5, 100), 0);
 
-        setAmandaData(nextValue)
+        if (amandaPoints.length >= maxPlotPoints) {
+          p = shiftQuarter(p);
+        }
 
         return [
           ...p,
           {
             x: prev.x + 1,
-            y: nextValue,
+            y: amandaData,
           },
         ];
       });
@@ -52,10 +60,10 @@ function App() {
 
   return (
     <div className="App">
-      <ParamLine drf="M:OUTTMP" data={tempData} />
-      <ParamPlot drf="M:OUTTMP" points={tempPoints} />
-      <ParamLine drf="G:AMANDA" data={amandaData} />
-      <ParamPlot drf="G:AMANDA" points={amandaPoints} />
+      <ParamLine device="M:OUTTMP" data={tempData} />
+      <ParamPlot device="M:OUTTMP" points={tempPoints} />
+      <ParamLine device="G:AMANDA" data={amandaData} setting={setAmandaData} />
+      <ParamPlot device="G:AMANDA" points={amandaPoints} />
     </div>
   );
 }

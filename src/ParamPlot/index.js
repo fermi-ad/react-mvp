@@ -1,4 +1,4 @@
-import { Line } from "@nivo/line";
+import { ResponsiveLine } from "@nivo/line";
 import { generateDrinkStats } from "@nivo/generators";
 
 const data = generateDrinkStats(18);
@@ -11,9 +11,9 @@ const commonProperties = {
   enableSlices: "x",
 };
 
-export const ParamPlot = ({ drf, points }) => {
+export const ParamPlot = ({ device, points }) => {
   return (
-    <Line
+    <ResponsiveLine
       {...commonProperties}
       yScale={{
         type: "linear",
@@ -22,10 +22,10 @@ export const ParamPlot = ({ drf, points }) => {
       }}
       xScale={{
         type: "linear",
-        min: 0,
-        max: "auto",
+        min: points[0].x,
+        max: points[0].x + 101,
       }}
-      data={[{ id: drf, data: points }]}
+      data={[{ id: device, data: points }]}
       axisBottom={{
         tickValues: 4,
       }}
