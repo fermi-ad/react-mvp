@@ -3,7 +3,7 @@ export const ParamLine = ({ data, device, setting }) => {
 
   return (
     <span>
-      {device}
+      {device + ' '}
       <input
         style={{ width: `${String(formattedData).length + 2}ch` }}
         type={"number"}

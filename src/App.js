@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import './App.css';
-import { ParamLine } from './ParamLine';
-import { ParamPlot } from './ParamPlot';
+import "./App.css";
+import { ParamLine } from "./ParamLine";
+import { ParamPlot } from "./ParamPlot";
 
 function App() {
   const [tempData, setTempData] = useState(50);
@@ -14,10 +14,13 @@ function App() {
   useEffect(() => {
     if (tempPoints.length >= maxPlotPoints) return;
 
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setTempPoints((p) => {
         const prev = p[p.length - 1];
-        const nextValue = Math.max(Math.min(prev.y + Math.random() * 10 - 5, 100), 0);
+        const nextValue = Math.max(
+          Math.min(prev.y + Math.random() * 10 - 5, 100),
+          0
+        );
 
         setTempData(nextValue);
 
@@ -30,16 +33,18 @@ function App() {
         ];
       });
     }, 1000);
-  }, [tempPoints, setTempPoints, tempData, setTempData]);
+
+    return () => clearTimeout(timeout);
+  }, [setTempData, setTempPoints, tempPoints]);
 
   const shiftQuarter = (array) => {
     const quarterLength = Math.floor(array.length / 4);
 
     return array.slice(quarterLength);
-  }
+  };
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setAmandaPoints((p) => {
         const prev = p[p.length - 1];
 
@@ -56,7 +61,9 @@ function App() {
         ];
       });
     }, 1000);
-  }, [amandaData, setAmandaData, amandaPoints, setAmandaPoints]);
+
+    return () => clearTimeout(timeout);
+  }, [amandaData, amandaPoints, setAmandaPoints]);
 
   return (
     <div className="App">
